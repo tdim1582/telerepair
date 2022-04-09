@@ -113,7 +113,7 @@
 </div><!-- /.modal -->
 
 <h1 class="page-header">
-	Lagerstyring
+	Lagerstyring 1
 </h1>
 
 <div class="clearfix"></div>
@@ -124,18 +124,72 @@
 	<li class="<?php if($this->uri->segment(3) == 'devices'): echo 'active'; endif; ?>"><a href="<?=site_url('products/inventory/devices');?>" >Enheder</a></li>
 	<li class="<?php if($this->uri->segment(3) == 'parts'): echo 'active'; endif; ?>"><a href="<?=site_url('products/inventory/parts');?>">Reservedele</a></li>
 </ul>
+<?php 
+$categories = $this->db->get('categories')->result();
+$categories_group_by_parent = array();
+foreach($categories as $category):
+	if ($category->parent != 0) {
+		$categories_group_by_parent[$category->parent][] = $category;
+	}
+endforeach;
+$products_group_by_category = array();
+foreach($products as $product):
+	$products_group_by_category[$product->category][] = $product;
+endforeach;
+?>
 <div class="tab-content" style="margin-top: 15px;">
-	<div class="tab-pane fade <?php if($this->uri->segment(3) == 'devices'): echo 'active in'; endif; ?>" id="default-tab-1">
-		<ul class="nav nav-pills" style="margin-bottom: 15px">
+	<div class="list-content" style="display: flex;min-height: 400px;">
+		<div style="min-width: 120px; border: solid rgb(238 238 238 / 0%); border-radius: 6px; background-color: rgb(241 249 255);margin-right: 3px;">
+			<ul class="nav nav-pills" style="margin-bottom: 15px;display: flex;flex-direction: column;color: #365672;font-size: 18px;">
+				<?php
+				foreach($categories as $category):
+					if ($category->parent == 0) {?>
+						<li class="parent_category" id="parent_category_<?= $category->id?>" style="margin: 5px;"><?=$category->name;?></li>
+					<?php }
+				endforeach;
+				?>
+			</ul>
+		</div>
+		<div class="sub_category_" style="min-width: 120px; border: solid rgb(238 238 238 / 0%); border-radius: 6px; background-color: rgb(241 249 255);display: none;">
 			<?php
-			foreach($products as $product):
+			foreach($categories_group_by_parent as $key => $parent_category):
 			?>
-			<li class="<?php if($product->id == $this->uri->segment(4)): echo 'active'; endif; ?>"><a href="<?=site_url('products/inventory/'.$this->uri->segment(3).'/'.$product->id);?>"><?=$product->name;?></a></li>
+				<div class="sub_category_parent" id="sub_category_parent_<?= $key?>" style="display: none;">
+					<ul class="nav nav-pills" style="margin-bottom: 15px;display: flex;flex-direction: column;color: #365672;font-size: 18px;">
+						<?php
+						foreach($parent_category as $category):
+						?>
+							<li class="sub_category" id="sub_category_<?= $category->id?>" style="margin: 5px;"><?=$category->name;?></li>
+						<?php
+						endforeach;
+						?>
+					</ul>
+				</div>
 			<?php
 			endforeach;
 			?>
-		</ul>
-		
+		</div>
+		<div class="tab-pane fade active in" id="default-tab-1">
+			<?php
+			foreach($products_group_by_category as $key => $product_category):
+			?>
+				<div class="product_category" id="product_category_<?= $key?>" style="display: none;">
+					<ul class="nav nav-pills" style="margin-bottom: 15px">
+						<?php
+						foreach($product_category as $product):
+						?>
+							<li class="<?php if($product->id == $this->uri->segment(4)): echo 'active'; endif; ?>"><a href="<?=site_url('products/inventory/'.$this->uri->segment(3).'/'.$product->id);?>"><?=$product->name;?></a></li>
+						<?php
+						endforeach;
+						?>
+					</ul>
+				</div>
+			<?php
+			endforeach;
+			?>
+		</div>	
+	</div>
+	<div class="tab-pane fade <?php if($this->uri->segment(3) == 'devices'): echo 'active in'; endif; ?>" id="default-tab-1">
 		<?php
 		$color_array = array();
 		foreach($colors as $color){
@@ -600,7 +654,7 @@
 		
 	</div>
 	<div class="tab-pane fade <?php if($this->uri->segment(3) == 'parts'): echo 'active in'; endif; ?>" id="default-tab-2">
-		<ul class="nav nav-pills" style="margin-bottom: 15px">
+		<!-- <ul class="nav nav-pills" style="margin-bottom: 15px">
 			<?php
 			foreach($products as $product):
 			?>
@@ -608,7 +662,7 @@
 			<?php
 			endforeach;
 			?>
-		</ul>
+		</ul> -->
 		
 		
 		<h1>

@@ -315,6 +315,7 @@ $timer = $this->global_model->get_active_timer();
                                       <ul class="dropdown-menu">
                                           <li><a href="<?= site_url('products'); ?>">Enheder</a></li>
                                           <li><a href="<?= site_url('products/inventory'); ?>">Lagerstyring</a></li>
+                                          <li><a href="<?= site_url('category'); ?>">Category</a></li>
                                       </ul>
                                   </li>
                                 <?php
@@ -707,6 +708,7 @@ $timer = $this->global_model->get_active_timer();
                         <ul>
                             <li><a href="<?= site_url('products'); ?>">Enheder</a></li>
                             <li><a href="<?= site_url('products/inventory'); ?>">Lagerstyring</a></li>
+                            <li><a href="<?= site_url('category'); ?>">Category</a></li>
                         </ul>
                     </li>
                   <?php

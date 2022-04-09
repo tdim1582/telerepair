@@ -16,6 +16,25 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label>Parent</label>
+                        <?php
+                        $categories_ = $this->db->get('categories')->result();
+                        ?>
+                        <select class="form-control selectpicker select_devices" name="category" style="width: 268px;">
+                            <option value="">- Vælg catgory -</option>
+                            <?php
+                            foreach ($categories_ as $category):
+                                if ($category->parent != 0) {
+                                    ?>
+                                    <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                                    <?php
+                                }
+                            endforeach;
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
                         <label>GB</label>
 
                         <!--- SÆLG ENHED --->

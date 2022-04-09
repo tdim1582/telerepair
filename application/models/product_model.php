@@ -224,11 +224,13 @@ class Product_model extends CI_Model {
 
 	        $name = $this->input->post('name');
 			$gbs  = $this->input->post('gbs');
+			$category =  $this->input->post('category');
 
 	        $string = array(
 	        	'name'              => $name,
 	        	'boutique_id'       => $this->session->userdata('active_boutique'),
-	        	'created_timestamp' => time()
+	        	'created_timestamp' => time(),
+				'category'				=> $category
 	        );
 	        $this->db->insert('products',$string);
 
@@ -287,6 +289,8 @@ class Product_model extends CI_Model {
 
 			$buy_new = $this->input->post('buy_new');
 
+			$category =  $this->input->post('category');
+
 	        $string = array(
 	        	'name'              	=> $name,
 	        	'sell_defect' 			=> $sell_defect?$sell_defect:0,
@@ -294,7 +298,8 @@ class Product_model extends CI_Model {
 	        	'control_prices'		=> $control_prices?$control_prices:0,
 	        	'sell_good_condition' 	=> $sell_good_condition?$sell_good_condition:0,
 	        	'sell_new'				=> $sell_new?$sell_new:0,
-	        	'buy_new'		    	=> $buy_new?$buy_new:0
+				'buy_new'		    	=> $buy_new?$buy_new:0,
+				'category'				=> $category
 	        );
 	        $this->db->where('id',$id);
 	        $this->db->update('products',$string);

@@ -1032,3 +1032,22 @@ $(document).ready(function() {
 
 
 })
+
+$(document).ready(function() {
+	$('.parent_category').on('click', function(e){
+		// e.preventDefault();
+		const parent_category_id = this.id.split("_")[2];
+		$('.sub_category_parent').hide();
+		$('.product_category').hide();
+		$('#sub_category_parent_'+parent_category_id).show();
+		$('.sub_category_').show();
+	})
+
+	$('.sub_category').on('click', function(e){
+		// e.preventDefault();
+		const sub_category_id = this.id.split("_")[2];
+		$('.product_category').hide();
+		$('#product_category_'+sub_category_id).show();
+	})
+	
+});

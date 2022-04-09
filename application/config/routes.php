@@ -60,6 +60,7 @@ $route['resetpassword'] = "authenticate/resetpassword";
 $route['default_controller'] = "dashboard";
 $route['404_override'] = '';
 
+$route['category'] = "category/index";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

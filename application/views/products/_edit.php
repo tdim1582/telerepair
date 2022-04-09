@@ -9,6 +9,25 @@
         <input type="checkbox" value="1" name="control_prices" <?php if($products->control_prices == 1): echo 'checked="true"'; endif; ?> />
         
     </div>
+
+    <div class="col-md-6">
+        <label>Parent</label>
+        <?php
+        $categories_ = $this->db->get('categories')->result();
+        ?>
+        <select class="form-control selectpicker select_devices" name="category" style="width: 268px;">
+            <option value="">- Vælg catgory -</option>
+            <?php
+            foreach ($categories_ as $category):
+                if ($category->parent != 0) {
+                    ?>
+                    <option value="<?= $category->id; ?>" <?php if($category->id == $products->category) {echo 'selected';}?>><?= $category->name; ?></option>
+                    <?php
+                }
+            endforeach;
+            ?>
+        </select>
+    </div>
     
     <div class="col-md-6">
         <label>GB</label>
