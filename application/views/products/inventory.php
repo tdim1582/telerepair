@@ -113,7 +113,7 @@
 </div><!-- /.modal -->
 
 <h1 class="page-header">
-	Lagerstyring 1
+	Lagerstyring
 </h1>
 
 <div class="clearfix"></div>
@@ -136,6 +136,16 @@ $products_group_by_category = array();
 foreach($products as $product):
 	$products_group_by_category[$product->category][] = $product;
 endforeach;
+$active_product = -1;
+$active_sub_cat = -1;
+$active_parent_cat = -1;
+if ($this->uri->segment(4)) {
+	$active_product = $this->uri->segment(4);
+	$this->db->where('id', $active_product);
+	$active_sub_cat = $this->db->get('products')->result()[0]->category;
+	$this->db->where('id', $active_sub_cat);
+	$active_parent_cat = $this->db->get('categories')->result()[0]->parent;
+}
 ?>
 <div class="tab-content" style="margin-top: 15px;">
 	<div class="list-content" style="display: flex;min-height: 400px;">
@@ -150,11 +160,11 @@ endforeach;
 				?>
 			</ul>
 		</div>
-		<div class="sub_category_" style="min-width: 120px; border: solid rgb(238 238 238 / 0%); border-radius: 6px; background-color: rgb(241 249 255);display: none;">
+		<div class="sub_category_" style="min-width: 120px; border: solid rgb(238 238 238 / 0%); border-radius: 6px; background-color: rgb(241 249 255);<?php if ($active_product == -1 || !$active_parent_cat) { echo 'display: none;'; } ?>">
 			<?php
 			foreach($categories_group_by_parent as $key => $parent_category):
-			?>
-				<div class="sub_category_parent" id="sub_category_parent_<?= $key?>" style="display: none;">
+				?>
+				<div class="sub_category_parent" id="sub_category_parent_<?= $key?>" <?php if($key != (int)$active_parent_cat) { echo 'style="display: none;"' ;} ?>>
 					<ul class="nav nav-pills" style="margin-bottom: 15px;display: flex;flex-direction: column;color: #365672;font-size: 18px;">
 						<?php
 						foreach($parent_category as $category):
@@ -169,11 +179,11 @@ endforeach;
 			endforeach;
 			?>
 		</div>
-		<div class="tab-pane fade active in" id="default-tab-1">
+		<div class="tab-pane fade active in" id="default-tab-1" style="padding-left: 5px;padding-right: 5px;">
 			<?php
 			foreach($products_group_by_category as $key => $product_category):
 			?>
-				<div class="product_category" id="product_category_<?= $key?>" style="display: none;">
+				<div class="product_category" id="product_category_<?= $key?>" <?php if($key != (int)$active_sub_cat || !$active_parent_cat) { echo 'style="display: none;"' ;} ?>>
 					<ul class="nav nav-pills" style="margin-bottom: 15px">
 						<?php
 						foreach($product_category as $product):
