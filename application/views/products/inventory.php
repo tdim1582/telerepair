@@ -147,7 +147,7 @@ if ($this->uri->segment(4)) {
 	$active_parent_cat = $this->db->get('categories')->result()[0]->parent;
 }
 ?>
-<div class="tab-content" style="margin-top: 15px;">
+<div class="tab-content" style="margin-top: 15px;<?php if(!$this->uri->segment(3)) {echo 'display:none;';}?>" >
 	<div class="list-content" style="display: flex;min-height: 400px;">
 		<div style="min-width: 120px; border: solid rgb(238 238 238 / 0%); border-radius: 6px; background-color: rgb(241 249 255);margin-right: 3px;">
 			<ul class="nav nav-pills" style="margin-bottom: 15px;display: flex;flex-direction: column;color: #365672;font-size: 18px;">
