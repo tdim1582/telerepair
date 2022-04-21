@@ -2,48 +2,54 @@
 	Receipt #<?=$this->uri->segment(3);?>
 </h1>
 <div class="row">
-	<div class="col-md-7">
-		<div class="table-responsive">
-		<?=form_open(current_url());?>
-		<table class="table table-striped">
-		  <tbody>
-		  	<tr>
-		  		<td width="200px">Navn</td>
-		  		<td><?=$receipt[0]->name;?></td>
-		  	</tr>
-		  	<tr>
-		  		<td  width="200px">E-mail</td>
-		  		<td><?=$receipt[0]->email;?></td>
-		  	</tr>
-            <tr>
-		  		<td  width="200px">Tlf. nummer</td>
-		  		<td><?=$receipt[0]->phone;?></td>
-		  	</tr>
-		  </tbody>
-		</table>
-		<?=form_close();?>
-		</div>
-	</div>
-	
-	<div class="col-md-4 col-md-offset-1">
-		<div class="table-responsive">
-		<table class="table table-striped">
-		  <tbody>
-		  	<tr>
-		  		<td width="200px">Oprettet af</td>
-		  		<td><?=$by_name;?></td>
-		  	</tr>
-		  	<tr>
-		  		<td  width="200px">Taget ind på</td>
-		  		<td><?=$boutique_name;?></td>
-		  	</tr>
-		  	<tr>
-		  		<td  width="200px">Oprettet d.</td>
-		  		<td><?=date("d/m/Y H:i",$receipt[0]->created_timestamp);?></td>
-		  	</tr>
-		  </tbody>
-		</table>
-		</div>
+	<div class="col-md-12">
+    <div class="col-md-6">
+      <div class="table-responsive">
+      <?=form_open(current_url());?>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td width="200px">Navn</td>
+            <td><?=$receipt[0]->name;?></td>
+          </tr>
+          <tr>
+            <td  width="200px">E-mail</td>
+            <td><?=$receipt[0]->email;?></td>
+          </tr>
+              <tr>
+            <td  width="200px">Tlf. nummer</td>
+            <td><?=$receipt[0]->phone;?></td>
+          </tr>
+        </tbody>
+      </table>
+      <?=form_close();?>
+      </div>
+    </div>
+
+    <div class="col-md-2" style="margin-bottom: 10px;">
+      <a id="repair_edit_" href="#" data-toggle="modal" data-id=[] data-target="#repair_edit" class="btn btn-info btn-xs">Rediger receipt</a> 
+    </div>
+    
+    <div class="col-md-4">
+      <div class="table-responsive">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td width="200px">Oprettet af</td>
+            <td><?=$by_name;?></td>
+          </tr>
+          <tr>
+            <td  width="200px">Taget ind på</td>
+            <td><?=$boutique_name;?></td>
+          </tr>
+          <tr>
+            <td  width="200px">Oprettet d.</td>
+            <td><?=date("d/m/Y H:i",$receipt[0]->created_timestamp);?></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
 	</div>
 	
 	<div class="clearfix"></div>
@@ -243,7 +249,7 @@
 
 </div>
 
-<?php global $access_id?>
+<?php global $access_id; ?>
 
 <div class="modal fade" id="buy_device">
     <div class="modal-dialog">
@@ -522,6 +528,41 @@
 
                 <div class="editContent_rep" style="display: none">
 
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="repair_edit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Receipt</h4>
+            </div>
+            <div class="modal-body" style="min-height: 300px;">
+                <div class="edit_rep_error" style="display: none; color:red;">
+                  <label >Empty field(s)!</label>
+                </div>
+                <div class="edit_rep">
+                  <div class="col-md-7" style="margin-left: -10px;">
+                    <label>Navn</label>
+                    <input type="text" value="<?=$receipt[0]->name;?>" class="form-control discount_add" style="height: 28px;" name="name_receipt">
+                    <div class="space"></div>
+                  </div>
+                  <div class="col-md-7" style="margin-left: -10px;">
+                    <label>E-mail</label>
+                    <input type="email" value="<?=$receipt[0]->email;?>" class="form-control discount_add" style="height: 28px;" name="email_receipt">
+                    <div class="space"></div>
+                  </div>
+                  <div class="col-md-7" style="margin-left: -10px;">
+                    <label>Tlf. nummer</label>
+                    <input type="number" value="<?=$receipt[0]->phone;?>" class="form-control discount_add" style="height: 28px;" name="phone_number_receipt">
+                  </div>
+                </div>
+                <div class="col-md-7" style="margin-left: -10px;">
+                  <input id="edit_receipt_btn" type="submit" class="btn btn-success" value="Rediger receipt" style="margin-top: 15px; width: 187px;" name="edit_receipt">
                 </div>
             </div>
         </div><!-- /.modal-content -->
@@ -863,6 +904,40 @@ $(document).on("change",'.checkIfNewAccess2',function(){
 	}else{
 		newAccess.addClass('hidden');
 	}
+});
+
+$("#repair_edit").on('hidden.bs.modal', function () {
+    $(this).data('bs.modal', null);
+});
+
+$('#repair_edit').on('shown.bs.modal', function (event) {
+
+});
+
+$('#edit_receipt_btn').on('click', function (event) {
+  const siteurl = $('.siteurl').val();
+  const email = $('input[name=email_receipt]').val();
+  const phone = $('input[name=phone_number_receipt]').val();
+  const name = $('input[name=name_receipt]').val();
+	const receipt_id = $('input[name=extra_access_to_order_id]').val();
+  $('.edit_rep_error').hide();
+  $.ajax({
+    type: "POST",
+    url: siteurl+"receipt/edit_receipt",
+    data: { 
+      receipt_id: receipt_id,
+      email: email,
+      name: name,
+      phone: phone,
+  }
+  }).done(function( msg ) {
+      console.log(msg);
+      if(msg) {
+        $('.edit_rep_error').show();
+      } else {
+        location.reload();
+      }
+  });
 });
 
 </script>

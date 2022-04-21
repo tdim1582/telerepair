@@ -293,6 +293,22 @@ class Receipt extends CI_Controller {
 		$this->load->view('receipt/_repairs',$data);
 	}
 
+	function edit_receipt() {
+		$id = $this->input->post('receipt_id');
+		if ($this->input->post('name') != '' && $this->input->post('email') != '' && $this->input->post('phone') != '') {
+		
+			$string = array(
+				'name' => $this->input->post('name'),
+				'email' => $this->input->post('email'),
+				'phone' => $this->input->post('phone'),					
+			);
+			$this->db->where('id',$id);
+			$this->db->update('receipt',$string);
+		} else {
+			echo "Error";
+		}
+	}
+
 	function edit_repairs() {
 		$repairs_id = $this->input->post('id');
 		$receipt_id = $this->input->post('receipt_id');
