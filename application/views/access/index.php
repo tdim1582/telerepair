@@ -170,6 +170,7 @@ endif;
                             <option value="card">Kort</option>
                             <option value="mobilepay">Mobilepay</option>
                             <option value="invoice">Faktura</option>
+                            <option value="loan">Lån</option>
                         </select>
 
                     </div>
